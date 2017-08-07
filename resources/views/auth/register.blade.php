@@ -1,86 +1,100 @@
-@extends('layouts.app')
-
+ @extends('layouts.auth')
+  
 @section('content')
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
-    rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
-        crossorigin="anonymous">
+  <body>      
+    <div class="mytop-content" >
+        <div class="container" > 
+          
+                <div class="col-sm-12 " style="background-color:rgba(0, 0, 0, 0.35); height: 60px; " >
+                   <a class="mybtn-social pull-right" href="{{ url('/register') }}">
+                       Register
+                  </a>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
-        crossorigin="anonymous"></script>
+                  <a class="mybtn-social pull-right" href="{{ url('/login') }}">
+                       Login
+                  </a>
+               
+                </div>
+            
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3 myform-cont" >
+                
 
+                     <div class="myform-top">
+                        <div class="myform-top-left">
+                           <img  src="{{ url('img/logo_plusis.png') }}" class="img-responsive logo" />
+                          <h3>Regístrate en nuestro sitio.</h3>
+                            <p>Por favor ingresa tus datos personales:</p>
+                        </div>
+                        <div class="myform-top-right">
+                          <i class="fa fa-user"></i>
+                        </div>
+                      </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Registro de Usuarios</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+                  <div class="col-md-12" >
+                    @if (count($errors) > 0)
+                     
+                        <div class="alert alert-danger">
+                            <strong>UPPS!</strong> Error al Registrar<br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    
+                    @endif
+                   </div  >
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Nombre</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                    <div class="myform-bottom">
+                      
+                      <form role="form" action="{{ url('/register') }}" method="post" class="">
+                      <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                        <input type="text" name="name" placeholder="Nombres..." class="form-control" value="{{ old('name') }}" >
+                        </div>
+                     
+                        <div class="form-group">
+                            <input type="text" name="email" placeholder="Email..." class="form-control"  
+                            value="{{ old('email') }}" />
                         </div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">Correo Electrónico</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                        <div class="form-group">
+                        <input type="password" name="password" placeholder="Password..." class="form-control" >
                         </div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Contraseña</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                         <div class="form-group">
+                        <input type="password" name="password_confirmation" placeholder="Password..." class="form-control" >
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirmar Contraseña</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
+                         {!! Recaptcha::render() !!}
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Registrar
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+
+
+                        <button type="submit" class="mybtn">Registrarme</button>
+                      </form>
+                    
+                    </div>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 mysocial-login">
+                    <h3>...Visitanos en nuestro blog...</h3>
+                    <h1><strong>Plusis</strong>.net</h1>
+                    
                 </div>
             </div>
         </div>
-    </div>
-</div>
+      </div>
+ 
+ </body>
 @endsection
+
+
